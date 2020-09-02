@@ -1,6 +1,5 @@
-import React, {  useState, useReducer } from 'react';
+import React from 'react';
 import { Select } from 'antd';
-import JSONTree from 'react-json-tree';
 import { Candidate } from '../candidates/CandidateForm';
 
 
@@ -8,7 +7,7 @@ import { Candidate } from '../candidates/CandidateForm';
 export interface OwnProps {
     onChange: (values: Array<string>) => void;
     candidates: Array<Candidate>
-  }
+}
   
 
 interface Props extends OwnProps {

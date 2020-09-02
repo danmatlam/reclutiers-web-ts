@@ -1,15 +1,31 @@
-import React, { FC, useState, useReducer } from 'react';
+import React, { FC, useState } from 'react';
 import InputSelectMultiple from './InputSelectMultiple';
 
 import data from './candidates.json';
 
-import JSONTree from 'react-json-tree';
-import InputLikert from './InputLikert';
+import InputLikert, { questionResponse } from './InputLikert';
 
+
+// interfaces
 export interface Candidate {
     name: string,
     photoUrl: string
 }
+
+// Mock helperr
+const likertAnswers: Array<String> = [
+    'strongly disagree',
+    'disagree',
+    'neutral',
+    'agree',
+    'strongly agree'
+];
+
+const likertQuestions: Array<String> = [
+    'The applicant masters javascript?',
+    'The applicant seems to be motivated by company vision?',
+    'The applicant has experience using frameworks as agile?'
+];
 
 
 const CandidateForm: FC = () => {
@@ -27,6 +43,12 @@ const CandidateForm: FC = () => {
     };
 
 
+    const onLikertChange = (value:questionResponse) => {
+        console.log(value)
+
+    }
+
+
 
     return (
         <>
@@ -36,10 +58,13 @@ const CandidateForm: FC = () => {
                 onChange={onApplicantSelect}
                 candidates={candidates}
             />
-        <InputLikert/>
+            <InputLikert
+                candidates={selected}
+                questions={likertQuestions}
+                answers={likertAnswers}
+                onLikertChange={onLikertChange}
+            />
 
-
-            <JSONTree data={selected}/>
         </>
     )
 };
