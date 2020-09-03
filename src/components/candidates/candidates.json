@@ -1,16 +1,3 @@
 {
-    "candidates":[
-       {
-          "name":"Mike Ross",
-          "photoUrl":"https://images.pexels.com/photos/3780030/pexels-photo-3780030.jpeg?    auto=compress&cs=tinysrgb&dpr=1&w=500"
-       },
-       {
-          "name":"Harvey Specterr",
-          "photoUrl":"https://images.pexels.com/photos/2802598/pexels-photo-2802598.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
-       },
-       {
-          "name":"Jessica Pearson",
-          "photoUrl":"https://images.pexels.com/photos/4063856/pexels-photo-4063856.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
-       }
-    ]
- }
+"candidates": ["Luke Skywalker", "Han Solo", "Obi-Wan Kenobi", "Darth Vader", "Princess Leia Organa" , "R2-D2"]
+}

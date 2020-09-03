@@ -4,18 +4,26 @@ import axios from "axios";
 
 import { Candidate, Candidates, saveCandidateType } from '../reducers/candidateReducer'
 
-const saveCandidate = (payload: Candidate) => {
-    return axios.post('/api', payload);
+const saveCandidate = (payload: Candidate[]) => {
+
+    const aux = {
+        candidates:payload
+    }
+
+    return axios.post('http://localhost:3001/api/candidates/push', JSON.stringify(aux));
 };
 
 
-export function* saveCandidateSaga(action:saveCandidateType) {
+export function* saveCandidateSaga(action: saveCandidateType) {
     try {
-        // const fetch = yield call(saveCandidate, action.payload);
-        yield put({type: "ADD_CANDIDATE_SUCCESS", candidate:fetch});
+        const fetch = yield call(saveCandidate, action.payload);
+
+        if (fetch.status === 200) yield put({ type: "SAVE_APPLICATION_SUCCESS", payload: action.payload });
+        else throw new Error(`Sorry! we couldn't finish the request, try again later`)
     }
-    catch {
-        yield put({type: "ADD_CANDIDATE_ERROR"});
+    catch (error) {
+        console.log(error)
+        yield put({ type: "SAVE_APPLICATION_ERROR", error:error });
     }
 }
 

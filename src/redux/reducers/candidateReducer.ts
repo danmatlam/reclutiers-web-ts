@@ -1,32 +1,51 @@
+import { flush } from "redux-saga/effects"
+
 ///interfaces
 export interface Candidate {
-    name: string,
-    questions: string[],
-    answers: string[],
-    geo: string
+    answer: string;
+    name: string;
+    question: string
 }
 export interface Candidates {
-    candidates: Candidate[]
+    candidates: Candidate[],
+    loading: boolean,
+    error: boolean,
 }
 
-/// types
-
-export type saveCandidateType = { type: "ADD_CANDIDATE", payload: Candidate }
+export type saveCandidateType = { type: string, payload: Candidate[] }
 
 
 const init: Candidates = {
-    candidates: []
+    candidates: [],
+    loading: false,
+    error: false,
 }
 /// REDUCER
-export default  (state: Candidates = init, action: saveCandidateType) => {
+export default (state: Candidates = init, action: saveCandidateType) => {
 
     switch (action.type) {
-        case "ADD_CANDIDATE": {
+        case "SAVE_APPLICATION": {
             return {
                 ...state,
-                candidates: [...state.candidates, action.payload]
+                loading: true,
+                error: false
             }
         }
+        case "SAVE_APPLICATION_SUCCESS": {
+            return {
+                ...state,
+                loading: false,
+                candidates: [...state.candidates, ...action.payload]
+            }
+        }
+        case "SAVE_APPLICATION_ERROR": {
+            return {
+                ...state,
+                loading: true,
+                errror:true
+            }
+        }
+
         default: return state
 
     }

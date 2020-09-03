@@ -16,7 +16,7 @@ import { saveCandidateSaga } from './actions/candidateSaga';
 
 
 export  function* watcherSaga() {
-   //  yield takeLatest("ADD_CANDIDATE", saveCandidateSaga);
+    yield takeLatest("SAVE_APPLICATION", saveCandidateSaga);
 }
 
 

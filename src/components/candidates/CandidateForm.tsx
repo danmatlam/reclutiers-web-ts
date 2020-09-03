@@ -1,25 +1,19 @@
 import React, { FC, useState, useReducer } from 'react';
 import InputSelectMultiple from './InputSelectMultiple';
 import { useDispatch, useSelector } from "react-redux";
-
-
 import data from './candidates.json';
-
 import InputLikert from './InputLikert';
-
-// interfaces
-
-import { Questionresponse } from './InputLikert';
 import JSONTreeComponent from 'react-json-tree';
-export interface Candidate {
-    name: string,
-    photoUrl: string
-};
+import { PageHeader, Button } from 'antd';
+
+// INTERFACES
+import { Questionresponse } from './InputLikert';
+
+
 interface Action {
-    type: string,
+    type: String,
     payload: Questionresponse
 }
-
 
 
 // MOCK DATA
@@ -39,82 +33,66 @@ const likertQuestions: Array<String> = [
 
 
 
-///LOCAL REDUCER
-const init: Questionresponse[] = [];
-
-const reducer = (state: Questionresponse[] = init, action: Action) => {
-    
-    switch (action.type) {
-        case 'add': return reviewAndUpdate(state, action.payload);
-        case 'remove': return removeByName(state, action.payload);
-        default: throw new Error('Unexpected action');
-    }
-};
-
-const reviewAndUpdate = (state: Questionresponse[], payload: Questionresponse) => {
-    const found = state.findIndex(item => ((item.name === payload.name) && (item.question === payload.question)));
-    if (found > -1) {
-        const items = [...state];
-        items.splice(found, 1);
-        return [...items, payload]
-    } else {
-        return [...state, payload]
-    }
-}
-
-const removeByName=(state: Questionresponse[], payload: Questionresponse) => {
-   const items =[...state];
-   return items.filter(item => item.name !== payload.name);;
-}
-
-
-
 /// MAIN COMPONENT
-
-
 
 const CandidateForm: FC = () => {
 
 
-    const candidates: Array<Candidate> = data.candidates;
-    const [selected, setSelected] = useState<Array<Candidate>>([]);
+    const candidates: Array<string> = data.candidates;
+    const [selected, setSelected] = useState<Array<string>>([]);
     const [state, dispatch] = useReducer(reducer, init);
+    const globalDispatch = useDispatch();
 
 
-    //Applicant choosing
+    //CHOSING APPLICANT
     const onFilterApplicant = (values: Array<string>) => {
-        const payload: Array<Candidate> = values.map((item) => {
-            const found = candidates.findIndex(candidate => candidate.name === item);
+        const payload: Array<string> = values.map((item) => {
+            const found = candidates.findIndex(candidate => candidate === item);
             return candidates[found];
         });
-
         setSelected(payload);
-
-
     };
-
-
-
-
+    //REMOVING APPLICANT
     const onDeselect = (value: string) => {
-        const payload =  { question: '', name: value, answer: '' }
-        dispatch({ type: 'remove', payload});
-
+        const payload = { question: '', name: value, answer: '' }
+        dispatch({ type: 'remove', payload });
     }
-
-
-
-
+    //RATING APPLICANT
     const onLikertChange = (value: Questionresponse) => {
         dispatch({ type: 'add', payload: value });
     }
 
 
+    const lock = (state.length >= 3)
+        ? ((state.length % 3 === 0) ? false : true)
+        : true
+
+    // SUBMITTING
+    const onFinish=()=>{
+
+
+        const payload = [...state];
+
+        globalDispatch({ type: "SAVE_APPLICATION", payload });
+
+    }
+
 
 
     return (
         <>
-            <h1>Candidates Form</h1>
+
+            <PageHeader
+                className="site-page-header"
+                title="Reclutier App"
+                extra={
+                    <Button 
+                    onClick={onFinish}
+                    type="primary" disabled={lock} style={{ borderRadius: '6pt' }}>
+                        Guardar
+                    </Button>
+                }
+            />,
 
             <InputSelectMultiple
                 onChange={onFilterApplicant}
@@ -130,6 +108,8 @@ const CandidateForm: FC = () => {
 
             <JSONTreeComponent data={state} />
 
+
+
         </>
     )
 };
@@ -140,3 +120,31 @@ const CandidateForm: FC = () => {
 
 
 export default CandidateForm;
+
+
+
+
+///LOCAL REDUCER FOR HANBLDING DINAMYC FORM
+const init: Questionresponse[] = [];
+const reducer = (state: Questionresponse[] = init, action: Action) => {
+    switch (action.type) {
+        case 'add': return reviewAndUpdate(state, action.payload);
+        case 'remove': return removeByName(state, action.payload);
+        default: throw new Error('Unexpected action');
+    }
+};
+const reviewAndUpdate = (state: Questionresponse[], payload: Questionresponse) => {
+    const found = state.findIndex(item => ((item.name === payload.name) && (item.question === payload.question)));
+    if (found > -1) {
+        const items = [...state];
+        items.splice(found, 1);
+        return [...items, payload]
+    } else {
+        return [...state, payload]
+    }
+}
+const removeByName = (state: Questionresponse[], payload: Questionresponse) => {
+    const items = [...state];
+    return items.filter(item => item.name !== payload.name);;
+}
+

@@ -1,13 +1,12 @@
 import React, { FC, useState } from 'react'
 import { Radio } from 'antd';
 import styled from 'styled-components';
-import { Candidate } from './CandidateForm';
 
 
 export interface OwnProps {
     questions: Array<String>;
     answers: Array<String>;
-    candidates: Array<Candidate>;
+    candidates: Array<string>;
     onLikertChange: (value: Questionresponse) => void;
 }
 
@@ -20,13 +19,13 @@ const InputLikert: FC<OwnProps> = ({ questions, answers, candidates, onLikertCha
         <View>
             {
                 candidates.map(candidate =>
-                    <ListItem key={candidate.name}>
-                        <p> {candidate.name} </p>
+                    <ListItem key={candidate}>
+                        <p> {candidate} </p>
                         {
                             questions.map((question) =>
                                 <Question
-                                    key={`${candidate.name}${question}`}
-                                    name={candidate.name}
+                                    key={`${candidate}${question}`}
+                                    name={candidate}
                                     question={question}
                                     answers={answers}
                                     onLikertChange={onLikertChange}

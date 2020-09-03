@@ -1,13 +1,12 @@
 import React from 'react';
 import { Select } from 'antd';
-import { Candidate } from '../candidates/CandidateForm';
 
 
 
 export interface OwnProps {
     onChange: (values: Array<string>) => void;
     onDeselect:(value:string)=>void;
-    candidates: Array<Candidate>
+    candidates: Array<string>
 }
   
 
@@ -31,9 +30,9 @@ const InputSelectMultiple: React.FC<Props> = ({onChange, candidates, onDeselect 
                 onDeselect={onDeselect}
             >
                 {
-                    candidates.map(element => (
-                        <Select.Option key={element.photoUrl} value={element.name}>
-                            {element.name}
+                    candidates.map(candidate => (
+                        <Select.Option key={candidate} value={candidate}>
+                            {candidate}
                         </Select.Option>
 
                     ))
