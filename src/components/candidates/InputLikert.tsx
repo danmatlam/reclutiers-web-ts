@@ -8,41 +8,33 @@ export interface OwnProps {
     questions: Array<String>;
     answers: Array<String>;
     candidates: Array<Candidate>;
-    onLikertChange: (value: questionResponse) => void;
+    onLikertChange: (value: Questionresponse) => void;
 }
-interface Props extends OwnProps {
 
-}
+
 
 
 // MAIN COMPONENT
-const InputLikert: FC<Props> = ({ questions, answers, candidates, onLikertChange }) => {
+const InputLikert: FC<OwnProps> = ({ questions, answers, candidates, onLikertChange }) => {
     return (
         <View>
-
             {
                 candidates.map(candidate =>
-
                     <ListItem key={candidate.name}>
                         <p> {candidate.name} </p>
                         {
                             questions.map((question) =>
                                 <Question
                                     key={`${candidate.name}${question}`}
-                                    person={candidate.name}
+                                    name={candidate.name}
                                     question={question}
                                     answers={answers}
                                     onLikertChange={onLikertChange}
                                 />)
-
                         }
                     </ListItem>
-
-
-
                 )
             }
-
 
         </View>
     )
@@ -54,29 +46,29 @@ const InputLikert: FC<Props> = ({ questions, answers, candidates, onLikertChange
 
 export interface QuestionProps {
     question: String,
-    person: String
+    name: String
     answers: Array<String>
-    onLikertChange: (value: questionResponse) => void;
+    onLikertChange: (value: Questionresponse) => void;
 };
 
 
 
-export interface questionResponse {
+export interface Questionresponse {
     question: String,
-    person: String,
+    name: String,
     answer: String
 };
 
 
 
 
-const Question: FC<QuestionProps> = ({ question, person, answers, onLikertChange }) => {
+const Question: FC<QuestionProps> = ({ question, name, answers, onLikertChange }) => {
 
     const [selected, setSelected] = useState<String>('');
 
-    const onChange = (payload: questionResponse) => {
+    const onChange = (payload: Questionresponse) => {
         setSelected(payload.answer);
-        onLikertChange(payload)
+        onLikertChange(payload);
     }
 
 
@@ -84,12 +76,12 @@ const Question: FC<QuestionProps> = ({ question, person, answers, onLikertChange
         <QuestionView>
             <p>{question}</p>
             <Radio.Group
-                onChange={event => onChange({question,person, answer: event.target.value})}
+                onChange={event => onChange({question,name, answer: event.target.value})}
                 value={selected}
             >
                 {
                     answers.map((answer, i) =>
-                        <Radio key={`${person}${question}${answer}`} value={answer}>{answer}</Radio>
+                        <Radio key={`${name}${question}${answer}`} value={i}>{answer}</Radio>
                     )
                 }
             </Radio.Group>

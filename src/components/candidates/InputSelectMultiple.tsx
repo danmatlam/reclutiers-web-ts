@@ -6,6 +6,7 @@ import { Candidate } from '../candidates/CandidateForm';
 
 export interface OwnProps {
     onChange: (values: Array<string>) => void;
+    onDeselect:(value:string)=>void;
     candidates: Array<Candidate>
 }
   
@@ -15,7 +16,7 @@ interface Props extends OwnProps {
 }
 
 
-const InputSelectMultiple: React.FC<Props> = ({onChange, candidates }) => {
+const InputSelectMultiple: React.FC<Props> = ({onChange, candidates, onDeselect }) => {
 
 
     return (
@@ -27,6 +28,7 @@ const InputSelectMultiple: React.FC<Props> = ({onChange, candidates }) => {
                 placeholder="Please select"
                 defaultValue={[]}
                 onChange={onChange}
+                onDeselect={onDeselect}
             >
                 {
                     candidates.map(element => (

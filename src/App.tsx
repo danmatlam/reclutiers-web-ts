@@ -1,10 +1,11 @@
 import React, { FC } from 'react';
 import CandidateForm from './components/candidates/CandidateForm';
+import ReduxWrap from './redux/ReduxWrap';
 
 const App: FC = () => (
- <>
-<CandidateForm/>
- </>
+    <ReduxWrap>
+        <CandidateForm />
+    </ReduxWrap>
 );
 
 export default App;
