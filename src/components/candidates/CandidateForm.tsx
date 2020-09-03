@@ -18,17 +18,18 @@ interface Action {
 
 // MOCK DATA
 const likertAnswers: Array<String> = [
-    'strongly disagree',
-    'disagree',
+    'Poor',
+    'Bad',
     'neutral',
-    'agree',
-    'strongly agree'
+    'fine',
+    'Excellent'
 ];
 
 const likertQuestions: Array<String> = [
-    'The applicant masters javascript?',
-    'The applicant seems to be motivated by company vision?',
-    'The applicant has experience using frameworks as agile?'
+    'Frontend Skills',
+    'Leadership',
+    'Motivated with company visison',
+  
 ];
 
 

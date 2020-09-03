@@ -80,7 +80,7 @@ const Question: FC<QuestionProps> = ({ question, name, answers, onLikertChange }
             >
                 {
                     answers.map((answer, i) =>
-                        <Radio key={`${name}${question}${answer}`} value={i}>{answer}</Radio>
+                        <Radio key={`${name}${question}${answer}`} value={i+1}>{answer}</Radio>
                     )
                 }
             </Radio.Group>
