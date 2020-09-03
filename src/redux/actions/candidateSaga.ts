@@ -6,11 +6,9 @@ import { Candidate, Candidates, saveCandidateType } from '../reducers/candidateR
 
 const saveCandidate = (payload: Candidate[]) => {
 
-    const aux = {
-        candidates:payload
-    }
 
-    return axios.post('http://localhost:3001/api/candidates/push', JSON.stringify(aux));
+
+    return axios.post('http://localhost:3001/api/candidates/push', payload);
 };
 
 
